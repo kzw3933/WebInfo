@@ -67,6 +67,7 @@ class Model(nn.Module):
 
         movie_feature = torch.cat([movie_types,movie_ids],1)
         movie_feature = self.movie_fc1(movie_feature)
+        movie_feature = torch.cat([movie_feature, movie_titles, movie_comments], 1)
         movie_feature = self.movie_fc2(movie_feature)
         movie_feature = self.movie_fc3(movie_feature)
 
