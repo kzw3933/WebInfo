@@ -1,8 +1,12 @@
 uid_max = None
-movie_categories_max = None
+movie_types_max = None
 movie_id_max = None
 movie_title_max = None
+movie_comments_max = None
 embed_dim = 32
+movie_comments_dim = 32
+movie_title_dim = 32
+user_social_dim = 32
 friends_co_matrix = None
 uservec_size = 10
 window_sizes = {2, 3, 4, 5}

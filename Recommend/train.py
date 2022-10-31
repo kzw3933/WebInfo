@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 
 
-# TODO 评估函数的设计
+# TODO 评估函数的设计, 数据集的划分， 训练超参数的调整
 
 def train(train_iter, dev_iter, model, args):
     if args.cuda:
