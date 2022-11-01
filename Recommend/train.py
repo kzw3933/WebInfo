@@ -17,8 +17,8 @@ def train():
     train_data = MovieData(train_data_root, train=True)
     test_data = MovieData(test_data_root, train=False)
 
-    train_data_loader = DataLoader(train_data_root, batch_size=batch_size, shuffle=True)
-    test_data_loader = DataLoader(train_data_root, batch_size=batch_size, shuffle=False)
+    train_data_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
+    test_data_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
 
     # 3. 目标函数和优化器
     criterion = torch.nn.MSELoss()
@@ -49,9 +49,6 @@ def train():
         model.save()
 
         # 可视化训练过程同时保存模型
-
-
-
 
 
 ## 使用NDCG评估效果
