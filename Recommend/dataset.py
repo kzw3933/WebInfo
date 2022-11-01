@@ -22,7 +22,8 @@ class MovieData(data.Dataset):
         label = None
         try:
             with open(self.datas[index]) as f:
-                data,label = eval(f.read())
+                datas = eval(f.read())
+                data,label = datas
         except:
             pass
 

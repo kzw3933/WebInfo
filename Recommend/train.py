@@ -50,7 +50,6 @@ def train():
 
         # 可视化训练过程同时保存模型
 
-
 ## 使用NDCG评估效果
 def evaluate():
     pass

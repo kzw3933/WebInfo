@@ -4,3 +4,6 @@
 
 ![](model.png)
 
+## 数据处理说明
+所有数据处理保存的文件保存在data下，使用.gitignore排除push到git，本地拉取(pull)后需重新生成(具体见prepare中的示例代码)
+

@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
+from torch.autograd import Variable
 from IR.Recommend.config import *
 import numpy as np
 
@@ -33,41 +34,42 @@ class TextCnn(nn.Module):
         x = self.fc(x)                                                      # (N,output_dim)
 
         return x
-
-
-# TODO 模型参数的设定
 class Model(nn.Module):
     def __init__(self, social_matrix):
         super(Model, self).__init__()
-        self.social_matrix = torch.from_numpy(self.get_user_social_matrix(social_matrix))
+        self.socialtype_embedding_layer = nn.Embedding(socialtype_max, embed_dim)
         self.uid_embedding_layer = nn.Embedding(uid_max, embed_dim)
         self.movie_types_embedding_layer = nn.Embedding(movie_types_max, embed_dim)
         self.movie_id_embedding_layer = nn.Embedding(movie_id_max, embed_dim)
         self.movie_comments_layer = TextCnn(movie_comments_max, embed_dim, kernel_num, movie_comments_dim)
-        self.movie_title_layer = TextCnn(movie_title_max, embed_dim, kernel_num, movie_title_dim)
-        self.user_fc1 = nn.Linear(user_social_dim, 128)
+        self.user_fc1 = nn.Linear(2*embed_dim, 128)
         self.user_fc2 = nn.Linear(128, 32)
         self.movie_fc1 = nn.Linear(2*embed_dim, 2*embed_dim)
-        self.movie_fc2 = nn.Linear(2*embed_dim+movie_comments_dim+movie_title_dim, 256)
+        self.movie_fc2 = nn.Linear(2*embed_dim+movie_comments_dim, 256)
         self.movie_fc3 = nn.Linear(256, 32)
 
     def forward(self, x):
-        user_ids, user_socials, movie_types, movie_ids, movie_titles, movie_comments = x
-        user_socials = self.social_matrix[torch.LongTensor(user_socials)]
+        user_ids, user_socialtype, movie_ids,movie_types,movie_comments = x
+        user_ids = Variable(user_ids)
+        user_socialtype = Variable(user_socialtype)
+        movie_ids = Variable(movie_ids)
+        movie_types = Variable(movie_types)
+        movie_comments = Variable(movie_comments)
+
+        user_socialtype = self.socialtype_embedding_layer(user_socialtype)
         user_ids = self.uid_embedding_layer(user_ids)
         movie_types = self.movie_types_embedding_layer(movie_types)
         movie_types = movie_types.sum()
         movie_ids = self.movie_id_embedding_layer(movie_ids)
-        movie_titles = self.movie_title_layer(movie_titles)
         movie_comments = self.movie_comments_layer(movie_comments)
 
-        user_feature = torch.cat([user_ids,user_socials],1)
+        user_feature = torch.cat([user_ids,user_socialtype],1)
         user_feature = self.user_fc1(user_feature)
         user_feature = self.user_fc2(user_feature)
 
         movie_feature = torch.cat([movie_types,movie_ids],1)
         movie_feature = self.movie_fc1(movie_feature)
-        movie_feature = torch.cat([movie_feature, movie_titles, movie_comments], 1)
+        movie_feature = torch.cat([movie_feature, movie_comments], 1)
         movie_feature = self.movie_fc2(movie_feature)
         movie_feature = self.movie_fc3(movie_feature)
 
