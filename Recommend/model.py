@@ -51,8 +51,8 @@ class Model(nn.Module):
         self.movie_fc2 = nn.Linear(2*embed_dim+movie_comments_dim+movie_title_dim, 256)
         self.movie_fc3 = nn.Linear(256, 32)
 
-    def forward(self, x, user_socials):
-        user_ids, movie_types, movie_ids, movie_titles, movie_comments = x
+    def forward(self, x):
+        user_ids, user_socials, movie_types, movie_ids, movie_titles, movie_comments = x
         user_socials = self.social_matrix[torch.LongTensor(user_socials)]
         user_ids = self.uid_embedding_layer(user_ids)
         movie_types = self.movie_types_embedding_layer(movie_types)
@@ -75,17 +75,11 @@ class Model(nn.Module):
 
         return ret
 
-    ## 使用SVD截取用户社交关系表征向量矩阵
-    def get_user_social_matrix(self, co_matrix=friends_co_matrix, vec_size=uservec_size):
-        from sklearn.utils.extmath import randomized_svd
-        U, S, V = randomized_svd(co_matrix, n_components=vec_size, n_iter=5, random_state=None)
-        return U
 
 
 
 if __name__ == '__main__':
     # movie_cnn = TextCnn(1000, 32, 10, 0.5, 10)
-    #
     # print(movie_cnn)
     a = np.random.randint(10, size=(3,4,3))
     b = np.random.randint(10, size=(3,4,3))

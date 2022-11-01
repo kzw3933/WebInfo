@@ -1,63 +1,60 @@
-import os
-import sys
-import torch
-import torch.nn.functional as F
+import torch.nn
+from torch.utils.data import DataLoader
+from torch.autograd import Variable
 
+from IR.Recommend.model import Model
+from IR.Recommend.dataset import MovieData
+from IR.Recommend.config import train_data_root, test_data_root, batch_size, learn_rate, weight_decay, max_epoch
 
-# TODO 评估函数的设计, 数据集的划分， 训练超参数的调整
+from tensorboard_logger import Logger
 
-def train(train_iter, dev_iter, model, args):
-    if args.cuda:
-        model.cuda(args.device)
+def train():
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    # 1. 模型
+    model = Model()
 
-    steps = 0
-    best_acc = 0
-    last_step = 0
-    model.train()
-    print('training...')
-    for epoch in range(1, args.epochs + 1):
-        for batch in train_iter:
-            feature, target = batch.text, batch.label  # (W,N) (N)
-            feature.data.t_()
+    # 2. 数据
+    train_data = MovieData(train_data_root, train=True)
+    test_data = MovieData(test_data_root, train=False)
 
-            if args.cuda:
-                feature, target = feature.cuda(), target.cuda()
+    train_data_loader = DataLoader(train_data_root, batch_size=batch_size, shuffle=True)
+    test_data_loader = DataLoader(train_data_root, batch_size=batch_size, shuffle=False)
+
+    # 3. 目标函数和优化器
+    criterion = torch.nn.MSELoss()
+    lr = learn_rate
+
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay= weight_decay)
+
+    logger = Logger(logdir='logs', flush_secs=2)
+
+    # 4. 训练
+    for epoch in range(max_epoch):
+        for i,(data,label) in enumerate(train_data_loader):
+            input = Variable(data)
+            target = Variable(label)
 
             optimizer.zero_grad()
-            logit = model(feature)
-            loss = F.cross_entropy(logit, target)
+
+            score = model(input)
+            loss = criterion(score, target)
             loss.backward()
+
             optimizer.step()
 
-            steps += 1
-            if steps % args.log_interval == 0:
-                result = torch.max(logit, 1)[1].view(target.size())
-                corrects = (result.data == target.data).sum()
-                accuracy = corrects * 100.0 / batch.batch_size
-                sys.stdout.write('\rBatch[{}] - loss: {:.6f} acc: {:.4f}$({}/{})'.format(steps,
-                                                                                         loss.data.item(),
-                                                                                         accuracy,
-                                                                                         corrects,
-                                                                                         batch.batch_size))
-            if steps % args.dev_interval == 0:
-                dev_acc = eval(dev_iter, model, args)
-                if dev_acc > best_acc:
-                    best_acc = dev_acc
-                    last_step = steps
-                    if args.save_best:
-                        save(model, args.save_dir, 'best', steps)
-                else:
-                    if steps - last_step >= args.early_stop:
-                        print('early stop by {} steps.'.format(args.early_stop))
-            elif steps % args.save_interval == 0:
-                save(model, args.save_dir, 'snapshot', steps)
+            if i % 20 == 0:
+                logger.log_value('loss', loss, step=i)
+                print("epoch: "+ str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
+
+        model.save()
+
+        # 可视化训练过程同时保存模型
 
 
-def save(model, save_dir, save_prefix, steps):
-    if not os.path.isdir(save_dir):
-        os.makedirs(save_dir)
-    save_prefix = os.path.join(save_dir,save_prefix)
-    save_path = '{}_steps_{}.pt'.format(save_prefix,steps)
-    torch.save(model.state_dict(),save_path)
+
+
+
+## 使用NDCG评估效果
+def evaluate():
+    pass
+

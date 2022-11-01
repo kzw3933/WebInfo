@@ -13,3 +13,10 @@ window_sizes = {2, 3, 4, 5}
 movie_title_len = 15
 movie_comments_len = 15
 kernel_num = 8
+
+train_data_root = None
+test_data_root = None
+batch_size = 200
+learn_rate = 0.1
+weight_decay = 1e-4
+max_epoch = 100
