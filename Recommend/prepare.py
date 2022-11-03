@@ -2,9 +2,9 @@ import csv
 import pickle
 from IR.Recommend.config import  user_social_path, userid_path, movieid_path, \
                                  movie_tag_path, mtypeid_path, ctokenid_path, \
-                                 movie_score_path, usertype_path, train_data_root, \
-                                 test_data_root, mtype_path, movie_comments_len, \
-                                 movie_types_len, movie_types_max, movie_ctokens_max
+                                 movie_score_path, usertype_path, dataset_root, \
+                                 mtype_path, movie_comments_len, movie_types_len,\
+                                 movie_types_max, movie_ctokens_max
 
 
 def get_user_id():
@@ -149,8 +149,6 @@ def get_movie_type():
         pickle.dump(movie2types, f)
 
 def get_dataset():
-    train_dir = train_data_root
-    test_dir = test_data_root
 
     with open(userid_path,"rb") as f:
         user2id,_ = pickle.load(f)
@@ -191,12 +189,10 @@ def get_dataset():
 
             movie_score = row['movie_score']
 
-            if i<train_num:
-                with open(train_dir+str(i)+".txt", "w") as b:
-                    b.write(str(((user_id,user_type,movie_id,movie_type, movie_comments),movie_score)))
-            else:
-                with open(test_dir+str(i)+".txt", "w") as b:
-                    b.write(str(((user_id,user_type,movie_id,movie_type, movie_comments),movie_score)))
+            with open(dataset_root + str(i) + ".txt", "w") as b:
+                b.write(str(((user_id, user_type, movie_id, movie_type, movie_comments), movie_score)))
+
+
 
 if __name__ == '__main__':
     get_user_id()

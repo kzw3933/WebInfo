@@ -4,18 +4,22 @@ from torch.autograd import Variable
 
 from IR.Recommend.model import Model
 from IR.Recommend.dataset import MovieData
-from IR.Recommend.config import train_data_root, test_data_root, batch_size, learn_rate, weight_decay, max_epoch
-
+from IR.Recommend.config import dataset_root, batch_size, learn_rate, \
+                                    weight_decay, max_epoch, model_save_path, train_log_dir
 from tensorboard_logger import Logger
+
 
 def train():
 
     # 1. 模型
-    model = Model()
+    try:
+        model = torch.load(model_save_path)
+    except:
+        model = Model()
 
     # 2. 数据
-    train_data = MovieData(train_data_root, train=True)
-    test_data = MovieData(test_data_root, train=False)
+    train_data = MovieData(dataset_root, train=True)
+    test_data = MovieData(dataset_root, train=False)
 
     train_data_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     test_data_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
@@ -24,27 +28,48 @@ def train():
     criterion = torch.nn.MSELoss()
     lr = learn_rate
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay= weight_decay)
+    best_loss = 1000
+    loss = 0
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
-    logger = Logger(logdir='logs', flush_secs=2)
+    logger = Logger(logdir=train_log_dir, flush_secs=2)
 
     # 4. 训练
     for epoch in range(max_epoch):
-        for i,(data,label) in enumerate(train_data_loader):
-            input = Variable(data)
+        for i, (user_id, user_type, movie_id, movie_type, movie_comments, label) in enumerate(train_data_loader):
+            user_id = Variable(user_id)
+            user_type = Variable(user_type)
+
+            movie_id = Variable(movie_id)
+            movie_type = Variable(movie_type)
+            movie_comments = Variable(movie_comments)
+
             target = Variable(label)
+            target = target.to(torch.float32)
+
+            input = (user_id, user_type, movie_id, movie_type, movie_comments)
 
             optimizer.zero_grad()
 
             score = model(input)
             loss = criterion(score, target)
             loss.backward()
-
             optimizer.step()
 
             # 可视化训练过程同时保存模型
+
             if i % 20 == 0:
                 logger.log_value('loss', loss, step=i)
-                print("epoch: "+ str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
+                print("epoch: " + str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
 
-        model.save()
+        if loss < best_loss:
+            best_loss = loss
+            if epoch > max_epoch/2:
+                model.save(model_save_path)
+
+
+if __name__ == '__main__':
+
+    train()
+
+

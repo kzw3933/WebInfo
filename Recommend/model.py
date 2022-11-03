@@ -37,11 +37,11 @@ class TextCnn(nn.Module):
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.socialtype_embedding_layer = nn.Embedding(socialtype_max, embed_dim)
-        self.uid_embedding_layer = nn.Embedding(uid_max, embed_dim)
-        self.movie_types_embedding_layer = nn.Embedding(movie_types_max, embed_dim)
-        self.movie_id_embedding_layer = nn.Embedding(movie_id_max, embed_dim)
-        self.movie_comments_layer = TextCnn(movie_ctokens_max, embed_dim, kernel_num, movie_comments_dim)
+        self.socialtype_embedding_layer = nn.Embedding(socialtype_max+1, embed_dim)
+        self.uid_embedding_layer = nn.Embedding(uid_max+1, embed_dim)
+        self.movie_types_embedding_layer = nn.Embedding(movie_types_max+2, embed_dim)
+        self.movie_id_embedding_layer = nn.Embedding(movie_id_max+1, embed_dim)
+        self.movie_comments_layer = TextCnn(movie_ctokens_max+2, embed_dim, kernel_num, movie_comments_dim)
         self.user_fc1 = nn.Linear(2*embed_dim, 128)
         self.user_fc2 = nn.Linear(128, 32)
         self.movie_fc1 = nn.Linear(2*embed_dim, 2*embed_dim)
@@ -50,11 +50,6 @@ class Model(nn.Module):
 
     def forward(self, x):
         user_ids, user_socialtype, movie_ids,movie_types,movie_comments = x
-        user_ids = Variable(torch.from_numpy(user_ids))
-        user_socialtype = Variable(torch.from_numpy(user_socialtype))
-        movie_ids = Variable(torch.from_numpy(movie_ids))
-        movie_types = Variable(torch.from_numpy(movie_types))
-        movie_comments = Variable(torch.from_numpy(movie_comments))
 
         user_socialtype = self.socialtype_embedding_layer(user_socialtype).squeeze()
         user_ids = self.uid_embedding_layer(user_ids).squeeze()
@@ -81,6 +76,7 @@ class Model(nn.Module):
 
 
 if __name__ == '__main__':
+
     # movie_cnn = TextCnn(1000, 32, 10, 0.5, 10)
     # print(movie_cnn)
     # a = np.random.randint(10, size=(3,4,3))
@@ -89,6 +85,9 @@ if __name__ == '__main__':
     # b = torch.from_numpy(b)
     # print(torch.sum(torch.mul(a,b)))
 
+    # movie_comments_layer = TextCnn(movie_ctokens_max, embed_dim, kernel_num, movie_comments_dim)
+    # print(movie_comments_layer)
+
     user_ids = np.random.randint(10,size=(1000,1))
     user_socialtype = np.random.randint(10,size=(1000,1))
     movie_ids = np.random.randint(10,size=(1000,1))
@@ -96,9 +95,13 @@ if __name__ == '__main__':
     movie_comments = np.random.randint(10,size=(1000,5))
     x = user_ids, user_socialtype, movie_ids, movie_types, movie_comments
     model = Model()
+    for name,parameter in model.named_parameters():
+        if parameter.requires_grad == True:
+            print(name)
     y = model(x)
 
-    # movie_comments_layer = TextCnn(movie_ctokens_max, embed_dim, kernel_num, movie_comments_dim)
-    # print(movie_comments_layer)
+
+
+
 
 
