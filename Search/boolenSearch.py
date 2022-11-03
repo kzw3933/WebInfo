@@ -78,7 +78,6 @@ class BoolenExpression:
         operators, items = BoolenExpression._parse2tree(split_tokens)
         return BoolenExpression._parse2str(operators, items)
 
-
     @staticmethod
     def _parse2tree(split_tokens):
 
