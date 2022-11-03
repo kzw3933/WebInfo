@@ -154,20 +154,15 @@ def get_dataset():
 
     with open(userid_path,"rb") as f:
         user2id,_ = pickle.load(f)
-        print(len(user2id))
     with open(usertype_path,"rb") as f:
         user2type = pickle.load(f)
-        print(len(user2type))
 
     with open(movieid_path, "rb") as f:
         movie2id,_  = pickle.load(f)
-        print(len(movie2id))
     with open(ctokenid_path, "rb") as f:
         ctoken2id,_ = pickle.load(f)
-        print(len(ctoken2id))
     with open(mtype_path, "rb") as f:
         mtype = pickle.load(f)
-        print(len(mtype))
 
 
     with open(movie_score_path, "r", encoding='utf-8') as f:

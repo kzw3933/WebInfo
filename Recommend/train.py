@@ -42,15 +42,9 @@ def train():
 
             optimizer.step()
 
+            # 可视化训练过程同时保存模型
             if i % 20 == 0:
                 logger.log_value('loss', loss, step=i)
                 print("epoch: "+ str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
 
         model.save()
-
-        # 可视化训练过程同时保存模型
-
-## 使用NDCG评估效果
-def evaluate():
-    pass
-

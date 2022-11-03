@@ -73,8 +73,8 @@ class Model(nn.Module):
         movie_feature = self.movie_fc2(movie_feature)
         movie_feature = self.movie_fc3(movie_feature)
 
-        ret = torch.sum(torch.mul(movie_feature,user_feature))
-
+        ret = torch.sum(torch.mul(movie_feature,user_feature),dim=-1)
+        ret = F.sigmoid(ret)*5
         return ret
 
 
@@ -89,16 +89,16 @@ if __name__ == '__main__':
     # b = torch.from_numpy(b)
     # print(torch.sum(torch.mul(a,b)))
 
-    # user_ids = np.random.randint(10,size=(1000,1))
-    # user_socialtype = np.random.randint(10,size=(1000,1))
-    # movie_ids = np.random.randint(10,size=(1000,1))
-    # movie_types = np.random.randint(10,size=(1000,5))
-    # movie_comments = np.random.randint(10,size=(1000,5))
-    # x = user_ids, user_socialtype, movie_ids, movie_types, movie_comments
-    # model = Model()
-    # y = model(x)
+    user_ids = np.random.randint(10,size=(1000,1))
+    user_socialtype = np.random.randint(10,size=(1000,1))
+    movie_ids = np.random.randint(10,size=(1000,1))
+    movie_types = np.random.randint(10,size=(1000,5))
+    movie_comments = np.random.randint(10,size=(1000,5))
+    x = user_ids, user_socialtype, movie_ids, movie_types, movie_comments
+    model = Model()
+    y = model(x)
 
-    movie_comments_layer = TextCnn(movie_ctokens_max, embed_dim, kernel_num, movie_comments_dim)
-    print(movie_comments_layer)
+    # movie_comments_layer = TextCnn(movie_ctokens_max, embed_dim, kernel_num, movie_comments_dim)
+    # print(movie_comments_layer)
 
 
