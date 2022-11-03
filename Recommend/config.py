@@ -16,10 +16,10 @@ kernel_num = 8
 
 dataset_root = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\dataset\\"
 
-batch_size = 200
-learn_rate = 0.1
+batch_size = 500
+learn_rate = 1
 weight_decay = 1e-4
-max_epoch = 100
+max_epoch = 500
 
 dataset_totals = 207966
 

@@ -17,6 +17,7 @@ def train():
     except:
         model = Model()
 
+    model = model.cuda()
     # 2. 数据
     train_data = MovieData(dataset_root, train=True)
     test_data = MovieData(dataset_root, train=False)
@@ -47,6 +48,13 @@ def train():
             target = Variable(label)
             target = target.to(torch.float32)
 
+            user_id = user_id.cuda()
+            user_type = user_type.cuda()
+            movie_id = movie_id.cuda()
+            movie_type = movie_type.cuda()
+            movie_comments = movie_comments.cuda()
+            target = target.cuda()
+
             input = (user_id, user_type, movie_id, movie_type, movie_comments)
 
             optimizer.zero_grad()
@@ -58,14 +66,16 @@ def train():
 
             # 可视化训练过程同时保存模型
 
-            if i % 20 == 0:
+            if i % 5 == 0:
                 logger.log_value('loss', loss, step=i)
                 print("epoch: " + str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
 
-        if loss < best_loss:
-            best_loss = loss
-            if epoch > max_epoch/2:
+        if epoch > max_epoch / 2:
+            if loss < best_loss:
+                best_loss = loss
                 model.save(model_save_path)
+
+
 
 
 if __name__ == '__main__':
