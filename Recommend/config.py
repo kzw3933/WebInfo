@@ -4,8 +4,8 @@ socialtype_max = 17             # 18个
 movie_types_max = 17            # 18个
 movie_ctokens_max = 12927       # 12928个
 
-movie_comments_len = 10
-movie_types_len = 12
+movie_comments_len = 5
+movie_types_len = 8
 
 embed_dim = 32
 movie_comments_dim = 32
@@ -16,8 +16,8 @@ kernel_num = 8
 
 dataset_root = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\dataset\\"
 
-batch_size = 500
-learn_rate = 1
+batch_size = 5000
+learn_rate = 0.0001
 weight_decay = 1e-4
 max_epoch = 500
 

@@ -1,7 +1,6 @@
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
-from torch.autograd import Variable
 from IR.Recommend.config import *
 import numpy as np
 
@@ -42,11 +41,11 @@ class Model(nn.Module):
         self.movie_types_embedding_layer = nn.Embedding(movie_types_max+2, embed_dim)
         self.movie_id_embedding_layer = nn.Embedding(movie_id_max+1, embed_dim)
         self.movie_comments_layer = TextCnn(movie_ctokens_max+2, embed_dim, kernel_num, movie_comments_dim)
-        self.user_fc1 = nn.Linear(2*embed_dim, 128)
-        self.user_fc2 = nn.Linear(128, 32)
-        self.movie_fc1 = nn.Linear(2*embed_dim, 2*embed_dim)
-        self.movie_fc2 = nn.Linear(2*embed_dim+movie_comments_dim, 256)
-        self.movie_fc3 = nn.Linear(256, 32)
+        self.user_fc1 = nn.Linear(2*embed_dim, 32)
+        self.user_fc2 = nn.Linear(32, 16)
+        self.movie_fc1 = nn.Linear(2*embed_dim, 32)
+        self.movie_fc2 = nn.Linear(32+movie_comments_dim, 32)
+        self.movie_fc3 = nn.Linear(32, 16)
 
     def forward(self, x):
         user_ids, user_socialtype, movie_ids,movie_types,movie_comments = x
@@ -69,7 +68,7 @@ class Model(nn.Module):
         movie_feature = self.movie_fc3(movie_feature)
 
         ret = torch.sum(torch.mul(movie_feature,user_feature),dim=-1)
-        ret = F.sigmoid(ret)*5
+        ret = torch.sigmoid(ret)*5
         return ret
 
 

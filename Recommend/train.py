@@ -6,6 +6,7 @@ from IR.Recommend.model import Model
 from IR.Recommend.dataset import MovieData
 from IR.Recommend.config import dataset_root, batch_size, learn_rate, \
                                     weight_decay, max_epoch, model_save_path, train_log_dir
+
 from tensorboard_logger import Logger
 
 
@@ -70,13 +71,10 @@ def train():
                 logger.log_value('loss', loss, step=i)
                 print("epoch: " + str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
 
-        if epoch > max_epoch / 2:
+        if epoch > 20:
             if loss < best_loss:
                 best_loss = loss
-                model.save(model_save_path)
-
-
-
+                torch.save(model,model_save_path)
 
 if __name__ == '__main__':
 
