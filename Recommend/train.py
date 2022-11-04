@@ -5,9 +5,12 @@ from torch.autograd import Variable
 from IR.Recommend.model import Model
 from IR.Recommend.dataset import MovieData
 from IR.Recommend.config import dataset_root, batch_size, learn_rate, \
-                                    weight_decay, max_epoch, model_save_path, train_log_dir
+                                    weight_decay, max_epoch, model_save_path, \
+                                    train_log_dir, last_best_loss, load_old_loss
 
 from tensorboard_logger import Logger
+
+import time
 
 
 def train():
@@ -20,7 +23,7 @@ def train():
 
     model = model.cuda()
     # 2. 数据
-    train_data = MovieData(dataset_root, train=True)
+    train_data = MovieData(dataset_root, train=True, test=True)
     test_data = MovieData(dataset_root, train=False)
 
     train_data_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
@@ -30,8 +33,8 @@ def train():
     criterion = torch.nn.MSELoss()
     lr = learn_rate
 
-    best_loss = 1000
     loss = 0
+    best_loss = last_best_loss if load_old_loss else 1.2
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     logger = Logger(logdir=train_log_dir, flush_secs=2)
@@ -67,6 +70,9 @@ def train():
 
             # 可视化训练过程同时保存模型
 
+            if i % 50 == 0:
+                print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+
             if i % 5 == 0:
                 logger.log_value('loss', loss, step=i)
                 print("epoch: " + str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
@@ -75,6 +81,8 @@ def train():
             if loss < best_loss:
                 best_loss = loss
                 torch.save(model,model_save_path)
+
+    print("\033[31mbest loss is: "+str(best_loss)+" !\033[0m")
 
 if __name__ == '__main__':
 

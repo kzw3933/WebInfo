@@ -8,18 +8,18 @@ movie_comments_len = 5
 movie_types_len = 8
 
 embed_dim = 32
-movie_comments_dim = 32
-user_social_dim = 32
+movie_comments_dim = 16
+user_social_dim = 16
 
 window_sizes = {2, 3, 4, 5}
 kernel_num = 8
 
 dataset_root = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\dataset\\"
 
-batch_size = 5000
+batch_size = 50000
 learn_rate = 0.0001
 weight_decay = 1e-4
-max_epoch = 500
+max_epoch = 100
 
 dataset_totals = 207966
 
@@ -35,3 +35,7 @@ ctokenid_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\ctokeni
 
 train_log_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\logs"
 model_save_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\model\\model.pth"
+
+last_best_loss = 1.0755
+load_old_loss = False
+
