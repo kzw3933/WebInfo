@@ -16,10 +16,10 @@ kernel_num = 8
 
 dataset_root = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\dataset\\"
 
-batch_size = 50000
-learn_rate = 0.0001
+batch_size = 5000
+learn_rate = 0.00001
 weight_decay = 1e-4
-max_epoch = 100
+max_epoch = 500
 
 dataset_totals = 207966
 
@@ -33,9 +33,13 @@ mtypeid_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\mtypeid.
 mtype_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\mtype.pkl"
 ctokenid_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\ctokenid.pkl"
 
+user_scoreformovies_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\userscore.pkl"
+predict_userscore_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data\\predictscore.pkl"
+
 train_log_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\logs"
 model_save_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\model\\model.pth"
 
-last_best_loss = 1.0755
-load_old_loss = False
+
+last_best_loss = 1.0800
+load_old_loss = True
 

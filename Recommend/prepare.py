@@ -4,7 +4,7 @@ from IR.Recommend.config import  user_social_path, userid_path, movieid_path, \
                                  movie_tag_path, mtypeid_path, ctokenid_path, \
                                  movie_score_path, usertype_path, dataset_root, \
                                  mtype_path, movie_comments_len, movie_types_len,\
-                                 movie_types_max, movie_ctokens_max
+                                 movie_types_max, movie_ctokens_max, user_scoreformovies_path
 
 
 def get_user_id():
@@ -166,8 +166,6 @@ def get_dataset():
     with open(movie_score_path, "r", encoding='utf-8') as f:
         totals = len(f.readlines())
 
-    train_num = int(totals*0.7)
-
     with open(movie_score_path,"r",encoding='utf-8') as f:
         f_csv = csv.DictReader(f)
         for i,row in enumerate(f_csv):
@@ -192,14 +190,42 @@ def get_dataset():
             with open(dataset_root + str(i) + ".txt", "w") as b:
                 b.write(str(((user_id, user_type, movie_id, movie_type, movie_comments), movie_score)))
 
+def get_user_scoreformovies():
+
+    with open(userid_path,"rb") as f:
+        user2id,_ = pickle.load(f)
+
+    with open(movieid_path, "rb") as f:
+        movie2id,_  = pickle.load(f)
+
+    with open(movie_score_path,"r",encoding='utf-8') as f:
+        f_csv = csv.DictReader(f)
+        user_scoreformovies = {}
+        for i,row in enumerate(f_csv):
+            user_id = user2id[row['user_id']]
+            movie_id = movie2id[row['movie_id']]
+            movie_score = row['movie_score']
+
+            if str(user_id) not in user_scoreformovies:
+                user_scoreformovies[str(user_id)] = {}
+                user_scoreformovies[str(user_id)][str(movie_id)]= movie_score
+            else:
+                user_scoreformovies[str(user_id)][str(movie_id)]= movie_score
+
+
+    with open(user_scoreformovies_path, "wb") as f:
+        pickle.dump(user_scoreformovies, f)
+
+
 
 
 if __name__ == '__main__':
-    get_user_id()
-    get_user_socialtype()
-    get_movie_id()
-    get_movie_typesid()
-    get_movie_type()
-    get_comment_tokenid()
-    get_dataset()
+    # get_user_id()
+    # get_user_socialtype()
+    # get_movie_id()
+    # get_movie_typesid()
+    # get_movie_type()
+    # get_comment_tokenid()
+    # get_dataset()
+    get_user_scoreformovies()
 

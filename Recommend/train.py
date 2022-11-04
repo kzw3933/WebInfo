@@ -71,18 +71,19 @@ def train():
             # 可视化训练过程同时保存模型
 
             if i % 50 == 0:
-                print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+                print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))+"\t\t\t"+"\033[31mbest "
+                                                                                           "loss is: "+str(best_loss)+"\033[0m")
 
             if i % 5 == 0:
                 logger.log_value('loss', loss, step=i)
                 print("epoch: " + str(epoch)+"\t"+"iteration: "+str(i)+"\t"+"loss: "+str(loss))
 
-        if epoch > 20:
+        if epoch > 10 :
             if loss < best_loss:
                 best_loss = loss
                 torch.save(model,model_save_path)
 
-    print("\033[31mbest loss is: "+str(best_loss)+" !\033[0m")
+    print()
 
 if __name__ == '__main__':
 
