@@ -1,5 +1,6 @@
 from IR.Corpus.corpus import Corpus
-from IR.Search.boolenSearch import BoolenSearcher
+import Search.syntax_book as syntax_book
+import Search.syntax_movie as syntax_movie
 
 class IRBuilder:
 
@@ -7,9 +8,22 @@ class IRBuilder:
         self.movie_corpus = Corpus(ctype="movie", preload=True)
         self.book_corpus = Corpus(ctype="book", preload=True)
 
-        self.movie_searcher = BoolenSearcher(self.movie_corpus)
-        self.book_searcher = BoolenSearcher(self.book_corpus)
+    # 对检索结果进行预处理、排序
+    def resSort(self,raw):
+        #返回结果最初为字典，现将其转化为列表
+        raw = raw[0]
+        ret = []
+        for item in raw:
+            ret.append(item)
+        #按词频降序排列
+        ret.sort(key=lambda x: raw[x],reverse = True)
+        return ret
 
+    def BoolExprFormat(self,query):
+        query = query.replace('（', ' ( ').replace('）', ' ) ')
+        query = query.replace('(', ' ( ').replace(')', ' ) ').strip()
+        query = query.replace('and', ' AND ').replace('or', ' OR ').replace('not', ' NOT ')
+        return query
 
 
 if __name__ == '__main__':
@@ -17,6 +31,7 @@ if __name__ == '__main__':
     IR = IRBuilder()
 
     print("\033[33m"+ "*"*20 + "欢迎进入布尔检索系统"+"*"*20 + "\033[0m")
+
     while True:
         type = input("input your query type" +"\033[32m" + " [book or movie ]"+ "\033[0m"+ ": ")
         if type != "movie" and type != "book":
@@ -25,20 +40,19 @@ if __name__ == '__main__':
         query = input("input your query boolen expression" + "\033[32m" + " [ eg a and (b or c) ]"+ "\033[0m"+": ")
         result = None
 
+        query = IR.BoolExprFormat(query)
         if type == 'movie':
-            result = IR.movie_searcher.run(query)
+            parser = syntax_movie.parser
         else:
-            result = IR.movie_searcher.run(query)
+            parser = syntax_book.parser
+
+        result = parser.parse(query)
+        result = IR.resSort(result)
+
 
         if result:
             print("The search results are in following: ")
-            print_str = "\t"
-            line_count = 0
-            for i in result:
-                print_str += i
-                print_str += '\t' if line_count < 5 else '\n\t'
-                line_count = 0 if line_count == 5 else line_count+1
-            print("\033[34m"+print_str+"\033[0m")
+            print(result)
 
         else:
             print("Can't found the related content in system!")
