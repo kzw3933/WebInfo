@@ -12,7 +12,7 @@ class Corpus:
     def __init__(self, ctype, preload=True):
         self.token2id = dict()
         self.id2token = dict()
-        self.corpus_passage_list = []
+        self.dictionary = dict()
         self.invert_indice = dict()
         self.type = ctype
         self.preload = preload
@@ -22,51 +22,35 @@ class Corpus:
 
     def add(self, text_id, text=None, tokens=None):
         all_tokens = []
-        if self.corpus_passage_list and text_id in self.corpus_passage_list:
-            if not tokens:
-                return
-            else:
+        if not text and not tokens:
+            return
+        elif text:
+            split_tokens = Corpus.splitTokens(text)
+            all_tokens.extend(split_tokens)
+            if tokens:
                 all_tokens.extend(tokens)
-                all_tokens = Corpus.removeStopWords(all_tokens)
-                self._updateTokens(all_tokens)
-                token_ids = [self.token2id[token] for token in all_tokens]
-                self._updateInvertIndice(text_id, token_ids)
-        else:
-            if not text and not tokens:
-                return
-            elif text:
-                split_tokens = Corpus.splitTokens(text)
-                all_tokens.extend(split_tokens)
-                if tokens:
-                    all_tokens.extend(tokens)
-            elif tokens:
-                all_tokens.extend(tokens)
-            all_tokens = Corpus.removeStopWords(all_tokens)
+        elif tokens:
+            all_tokens.extend(tokens)
+        all_tokens = Corpus.removeStopWords(all_tokens)
 
-            self._updateTokens(all_tokens)
-            token_ids = [self.token2id[token] for token in all_tokens]
-            self._updateInvertIndice(text_id, token_ids)
-
-            self.corpus_passage_list.append(text_id)
+        self._updateTokens(all_tokens)
+        token_ids = [self.token2id[token] for token in all_tokens]
+        self._updateInvertIndice(text_id, token_ids)
 
     def save(self):
         if self.type == 'movie':
             with open(pre_load_movie_corpus_path,"wb") as f:
-                pickle.dump((self.token2id, self.id2token, self.invert_indice, self.corpus_passage_list), f)
+                pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
         elif self.type == 'book':
             with open(pre_load_book_corpus_path,"wb") as f:
-                pickle.dump((self.token2id, self.id2token, self.invert_indice, self.corpus_passage_list), f)
-
-    # TODO 暂时只加入了内容简介的内容进入语料库，电影类型(或者其他的内容模仿)内容简介的方式添加进语料库,对于添加进语料库的文档,
-    #      text仅支持添加一次(默认第一次需要添加text，否则后续只能以添加tokens形式添加)，但可以tokens形式添加新的词项进入
-    #      语料库(具体见add函数)，以此方式防止文章内容重复添加并同时支持对文章内容的增量添加
+                pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
 
     def _prepare(self):
         if self.type == 'movie':
             if self.preload:
                 if os.path.exists(pre_load_movie_corpus_path):
                     with open(pre_load_movie_corpus_path,"rb") as f:
-                        self.token2id, self.id2token, self.invert_indice, self.corpus_passage_list = pickle.load(f)
+                        self.dictionary,self.token2id,self.id2token,self.invert_indice = pickle.load(f)
                 else:
                     print(pre_load_movie_corpus_path+" not found!")
                     sys.exit(-1)
@@ -79,7 +63,7 @@ class Corpus:
             if self.preload:
                 if os.path.exists(pre_load_book_corpus_path):
                     with open(pre_load_book_corpus_path,"rb") as f:
-                        self.token2id,self.id2token,self.invert_indice, self.corpus_passage_list = pickle.load(f)
+                        self.dictionary,self.token2id,self.id2token,self.invert_indice = pickle.load(f)
                 else:
                     print(pre_load_book_corpus_path+" not found!")
                     sys.exit(-1)
@@ -88,6 +72,9 @@ class Corpus:
                 books = json.load(f)
                 for key, value in books.items():
                     self.add(key, value)
+
+        for token in self.token2id:
+            self.dictionary[token][1] = len(self.invert_indice[self.token2id[token]])
 
 
 
@@ -98,6 +85,7 @@ class Corpus:
             tid = len(self.token2id)
             self.token2id[token] = str(tid)
             self.id2token[str(tid)] = token
+            self.dictionary[token] = [str(tid),0]
 
     def _updateInvertIndice(self, text_id, token_ids):
         for token_id in token_ids:
