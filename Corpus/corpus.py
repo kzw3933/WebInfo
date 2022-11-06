@@ -12,6 +12,7 @@ class Corpus:
     def __init__(self, ctype, preload=True):
         self.token2id = dict()
         self.id2token = dict()
+        self.passagelist = dict()
         self.dictionary = dict()
         self.invert_indice = dict()
         self.type = ctype
@@ -19,8 +20,10 @@ class Corpus:
         self._prepare()
 
 
+    def add(self, text_id, text_name, text=None, tokens=None):
+        if text_name not in self.passagelist and text:
+            self.passagelist[str(text_id)] = (text_name, text)
 
-    def add(self, text_id, text=None, tokens=None):
         all_tokens = []
         if not text and not tokens:
             return
@@ -44,6 +47,11 @@ class Corpus:
         elif self.type == 'book':
             with open(pre_load_book_corpus_path,"wb") as f:
                 pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
+    def getPassageList(self, id_list):
+
+        return [self.passagelist[str(i)] for i in id_list]
+
+
 
     def _prepare(self):
         if self.type == 'movie':

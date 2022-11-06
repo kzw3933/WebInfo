@@ -1,6 +1,6 @@
 from IR.Corpus.corpus import Corpus
-import Search.syntax_book as syntax_book
-import Search.syntax_movie as syntax_movie
+import IR.Search.syntax_book as syntax_book
+import IR.Search.syntax_movie as syntax_movie
 
 class IRBuilder:
 
@@ -18,6 +18,7 @@ class IRBuilder:
         #按词频降序排列
         ret.sort(key=lambda x: raw[x],reverse = True)
         return ret
+
 
     def BoolExprFormat(self,query):
         query = query.replace('（', ' ( ').replace('）', ' ) ')
@@ -49,10 +50,19 @@ if __name__ == '__main__':
         result = parser.parse(query)
         result = IR.resSort(result)
 
+        if type == 'movie':
+            result = IR.book_corpus.getPassageList(result)
+        else:
+            result = IR.movie_corpus.getPassageList(result)
+
 
         if result:
             print("The search results are in following: ")
-            print(result)
+            for item in result:
+                passage_name,passage_text = item
+                print("passage_name: "+"\033[31m"+passage_name+"\033[0m")
+                passage_text = str(passage_text[0:10])+"..." if len(passage_text) >=10 else str(passage_text)+"..."
+                print("passage_text: " + "\033[31m" + passage_text + "\033[0m")
 
         else:
             print("Can't found the related content in system!")

@@ -79,6 +79,7 @@ if __name__ == '__main__':
     m_duration = Filter(None, None, ("id", "info"), ("property", "v:runtime"))
     m_alias = Filter(None, (r'又名:</span>(.*?)<br/?>', 0), ("id", "info"))
     m_imdb = Filter(None, (r'IMDb:</span>(.*?)<br/?>', 0), ("id", "info"))
+    m_title = Filter(None,None,("name","title"))
 
     ###  内容介绍
     m_synopsis = Filter(None, None, ("id", "link-report"), ("property", "v:summary"))
@@ -97,6 +98,7 @@ if __name__ == '__main__':
     m_duration_file = open(M_duration_file, "a", encoding="utf-8")
     m_alias_file = open(M_alias_file, "a", encoding="utf-8")
     m_imdb_file = open(M_imdb_file, "a", encoding="utf-8")
+    m_title_file = open(M_title_file, "a", encoding="utf-8")
     m_synopsis_file = open(M_synopsis_file, "a", encoding="utf-8")
     m_actors_file = open(M_actors_file, "a", encoding="utf-8")
 
@@ -112,6 +114,7 @@ if __name__ == '__main__':
             m_duration_file.write(html_file + ": " + m_duration.run(fcontent)+"\n")
             m_alias_file.write(html_file + ": " + m_alias.run(fcontent)+"\n")
             m_imdb_file.write(html_file + ": " + m_imdb.run(fcontent)+"\n")
+            m_title_file.write(html_file + ": " + m_title.run(fcontent) + "\n")
             m_synopsis_file.write(html_file + ": " +
                                   m_synopsis.run(fcontent).replace("\n", " ").replace("\u3000", " ").replace("\u2022"," ").strip()+"\n")
             m_actors_file.write(html_file + ": " + m_actors.run(fcontent)+"\n")
@@ -127,6 +130,7 @@ if __name__ == '__main__':
     m_duration_file.close()
     m_alias_file.close()
     m_imdb_file.close()
+    m_title_file.close()
     m_synopsis_file.close()
     m_actors_file.close()
 
@@ -142,6 +146,7 @@ if __name__ == '__main__':
     b_price = Filter(None, (r'定价:</span>(.*?)<br/?>', 0), ("id", "info"))
     b_binding = Filter(None, (r'装帧:</span>(.*?)<br/?>', 0), ("id", "info"))
     b_isbn = Filter(None, (r'ISBN:</span>(.*?)<br/?>', 0), ("id", "info"))
+    b_title = Filter(None,None,("name","title"))
 
 
     ###  内容介绍
@@ -158,6 +163,7 @@ if __name__ == '__main__':
     b_price_file = open(B_price_file, "a", encoding="utf-8")
     b_binding_file = open(B_binding_file, "a", encoding="utf-8")
     b_isbn_file = open(B_isbn_file, "a", encoding="utf-8")
+    b_title_file = open(B_title_file, "a", encoding="utf-8")
     b_synopsis_file = open(B_synopsis_file, "a", encoding="utf-8")
     b_writerinfo_file = open(B_writerinfo_file, "a", encoding="utf-8")
 
@@ -189,6 +195,7 @@ if __name__ == '__main__':
             b_price_file.write(html_file + ": " + b_price.run(fcontent) + "\n")
             b_binding_file.write(html_file + ": " + b_binding.run(fcontent) + "\n")
             b_isbn_file.write(html_file + ": " + b_isbn.run(fcontent) + "\n")
+            b_title_file.write(html_file + ": " + b_title.run(fcontent) + "\n")
             b_synopsis_file.write(html_file + ": " + re.sub(r'\s+', " ", b_synopsis.run(fcontent)) + "\n")
             b_writerinfo_file.write(html_file + ": " + re.sub(r'\s+', " ", str(b_writerinfo.run(fcontent))) + "\n")
             print(html_file + " is ok!")
@@ -200,6 +207,7 @@ if __name__ == '__main__':
     b_price_file.close()
     b_binding_file.close()
     b_isbn_file.close()
+    b_title_file.close()
     b_synopsis_file.close()
     b_writerinfo_file.close()
 

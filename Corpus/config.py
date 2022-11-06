@@ -53,6 +53,7 @@ M_show_time_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_s
 M_duration_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_duration.txt"
 M_alias_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_alias.txt"
 M_imdb_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_imdb.txt"
+M_title_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_title.txt"
 M_synopsis_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_synopsis.txt"
 M_actors_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_actors.txt"
 
@@ -63,6 +64,7 @@ B_pagenums_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_pa
 B_price_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_price.txt"
 B_binding_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_binding.txt"
 B_isbn_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_isbn.txt"
+B_title_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_title.txt"
 B_synopsis_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_synopsis.txt"
 B_writerinfo_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_writerinfo.txt"
 
