@@ -12,7 +12,6 @@ class Spider:
     def run(self):
         self.downloader.run()
 
-
 class Downloader:
     def __init__(self, headers, proxies, urls, save2path):
         self.headers = headers

@@ -23,7 +23,6 @@ if __name__ == '__main__':
     with open(user_scoreformovies_path,"rb") as f:
         user_scoreformovies = pickle.load(f)
 
-
     for user,scores in predict_userscore.items():
         user_name = id2user[str(user)]
 
@@ -36,12 +35,12 @@ if __name__ == '__main__':
         predict_list = sorted(score_list, key=lambda x: predict_scores_list[score_list.index(x)])[::-1]
         predict_dcg = DCG(predict_list)
 
-        print(predict_dcg)
-        print(idcg)
+        if idcg == 0:
+            ndcg = 0
+        else:
+            ndcg = predict_dcg / idcg
 
-        ndcg = predict_dcg / idcg
-
-        save_file.write("id: "+ user_name+" ndcg: "+str(ndcg))
+        save_file.write("id: "+ user_name+" ndcg: "+str(ndcg)+"\n")
 
     save_file.close()
 
