@@ -62,7 +62,7 @@ if __name__ == '__main__':
             print("*" * 100)
             for item in result:
                 passage_name,passage_text = item
-                print("passage_name: "+"\033[32m"+passage_name+(30-len(passage_name))*" "+"\033[0m",end="")
+                print("passage_name: "+"\033[32m"+passage_name+(50-len(passage_name))*" "+"\033[0m",end="")
                 passage_text = str(passage_text.split('。')[0])+"..." if len(passage_text) >=10 else str(passage_text)+"..."
                 print("passage_text: " + "\033[32m" + passage_text + "\033[0m")
             print("*"*100)

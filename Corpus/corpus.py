@@ -70,6 +70,7 @@ class Corpus:
                 synopsis_list = [i.strip('\n') for i in f.readlines()]
                 for i,synopsis in enumerate(synopsis_list):
                     self.add(synopsis.split(':')[0],title_list[i], synopsis.split(':')[1],type_list[i])
+                    self.add(synopsis.split(':')[0], title_list[i], None, [title_list[i].strip().split(' ')[0]])
 
         elif self.type == 'book':
             if self.preload:
@@ -86,6 +87,7 @@ class Corpus:
                 synopsis_list = [i.strip('\n') for i in f.readlines()]
                 for i, synopsis in enumerate(synopsis_list):
                     self.add(synopsis.split(':')[0], title_list[i], synopsis.split(':')[1])
+                    self.add(synopsis.split(':')[0], title_list[i], None, [title_list[i].strip().split(' ')[0]])
 
         for token in self.token2id:
             self.dictionary[token][1] = len(self.invert_indice[self.token2id[token]])
