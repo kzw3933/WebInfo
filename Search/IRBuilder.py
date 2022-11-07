@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     IR = IRBuilder()
 
-    print("\033[33m"+ "*"*20 + "欢迎进入布尔检索系统"+"*"*20 + "\033[0m")
+    print("\033[34m"+ "*"*20 + "欢迎进入布尔检索系统"+"*"*20 + "\033[0m")
 
     while True:
         type = input("input your query type" +"\033[32m" + " [book or movie ]"+ "\033[0m"+ ": ")
@@ -58,16 +58,19 @@ if __name__ == '__main__':
 
         if result:
             print("The search results are in following: ")
+            print("*" * 100)
             for item in result:
                 passage_name,passage_text = item
-                print("passage_name: "+"\033[31m"+passage_name+"\033[0m",end="\t")
-                passage_text = str(passage_text[0:10])+"..." if len(passage_text) >=10 else str(passage_text)+"..."
-                print("passage_text: " + "\033[31m" + passage_text + "\033[0m")
+                print("passage_name: "+"\033[32m"+passage_name+(30-len(passage_name))*" "+"\033[0m",end="")
+                passage_text = str(passage_text.split('。')[0])+"..." if len(passage_text) >=10 else str(passage_text)+"..."
+                print("passage_text: " + "\033[32m" + passage_text + "\033[0m")
+            print("*"*100)
+
 
         else:
             print("Can't found the related content in system!")
 
-        next = input("continue(Y/n)? ")
+        next = input("continue "+"\033[32m"+"[Y/n]? "+"\033[0m")
         if next == 'n' or next == 'N':
             break
 
