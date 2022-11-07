@@ -3,7 +3,7 @@
 import csv
 import random
 import numpy as np
-
+from IR.Recommend.config import *
 
 def DCG(rel_list):
 
@@ -156,7 +156,7 @@ def mapping(data):
     return new_data
 
 if __name__=='__main__':
-    train_data,test_data = getdata('Movie_score.csv')
+    train_data,test_data = getdata(movie_score_path)
     print(train_data[0])
     print(train_data[1])
     s = SVD(train_data, 40)
