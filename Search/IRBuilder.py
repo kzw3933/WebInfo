@@ -46,15 +46,16 @@ if __name__ == '__main__':
             parser = syntax_movie.parser
         else:
             parser = syntax_book.parser
+        try:
+            result = parser.parse(query)
+            result = IR.resSort(result)
 
-        result = parser.parse(query)
-        result = IR.resSort(result)
-
-        if type == 'movie':
-            result = IR.movie_corpus.getPassageList(result)
-        else:
-            result = IR.book_corpus.getPassageList(result)
-
+            if type == 'movie':
+                result = IR.movie_corpus.getPassageList(result)
+            else:
+                result = IR.book_corpus.getPassageList(result)
+        except:
+            print("\033[31m"+"Invalid inputs cause some errors happen when searching!"+"\033[0m")
 
         if result:
             print("The search results are in following: ")
