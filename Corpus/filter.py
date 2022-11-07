@@ -3,9 +3,6 @@ from IR.Corpus.config import *
 import os
 import re
 
-# TODO  1 解析数据效果的确认(有些网页并未解析出待寻找的数据，可能解析方式有误或者网页缺失不存在待寻找的内容，需要确认)
-#       2 解析数据的整合(暂时为方便查看直接将解析出的数据保存进txt，需要整合并保存到csv文件中)
-
 class Filter:
     def __init__(self, names=None, re_group=None, *args):
         self.names = names
@@ -58,7 +55,7 @@ class Filter:
                         temp.append(re.search(re_pattern, str(i), re.DOTALL).groups()[int(group)].strip())
                 ret = temp
             else:
-                ret = [i.text for i in ret]
+                ret = [i.text.replace('\n'," ").strip() for i in ret]
             return ret[0] if len(ret) == 1 else " ".join(ret)
 
 
@@ -69,7 +66,7 @@ if __name__ == '__main__':
 
     ## 创建电影信息的解析器
 
-    ###  基本信息(导演,编剧,类型,制片国家/地区,语言,上映日期,片长,又名,IMDb)
+    ##  基本信息(导演,编剧,类型,制片国家/地区,语言,上映日期,片长,又名,IMDb)
     m_director = Filter(["导演:"], None, ("id", "info"), ("name", "span"))
     m_writer = Filter(["编剧:"], None, ("id", "info"), ("name", "span"))
     m_type = Filter(None, None, ("id", "info"), ("property", "v:genre"))
@@ -85,22 +82,22 @@ if __name__ == '__main__':
     m_synopsis = Filter(None, None, ("id", "link-report"), ("property", "v:summary"))
 
     ###  演员信息
-    m_actors = Filter(None, None, ("class", "celebrity"), ("class", "name"))
+    m_actors = Filter(None, None, ("class", "celebrity"), ("class", "name"), ("name", "a"))
 
     ## 解析电影
 
-    m_director_file = open(M_director_file, "a", encoding="utf-8")
-    m_writer_file = open(M_writer_file, "a", encoding="utf-8")
-    m_type_file = open(M_type_file, "a", encoding="utf-8")
-    m_made_country_file = open(M_made_country_file, "a", encoding="utf-8")
-    m_language_file = open(M_language_file, "a", encoding="utf-8")
-    m_show_time_file = open(M_show_time_file, "a", encoding="utf-8")
-    m_duration_file = open(M_duration_file, "a", encoding="utf-8")
-    m_alias_file = open(M_alias_file, "a", encoding="utf-8")
-    m_imdb_file = open(M_imdb_file, "a", encoding="utf-8")
-    m_title_file = open(M_title_file, "a", encoding="utf-8")
-    m_synopsis_file = open(M_synopsis_file, "a", encoding="utf-8")
-    m_actors_file = open(M_actors_file, "a", encoding="utf-8")
+    m_director_file = open(M_director_file, "w", encoding="utf-8")
+    m_writer_file = open(M_writer_file, "w", encoding="utf-8")
+    m_type_file = open(M_type_file, "w", encoding="utf-8")
+    m_made_country_file = open(M_made_country_file, "w", encoding="utf-8")
+    m_language_file = open(M_language_file, "w", encoding="utf-8")
+    m_show_time_file = open(M_show_time_file, "w", encoding="utf-8")
+    m_duration_file = open(M_duration_file, "w", encoding="utf-8")
+    m_alias_file = open(M_alias_file, "w", encoding="utf-8")
+    m_imdb_file = open(M_imdb_file, "w", encoding="utf-8")
+    m_title_file = open(M_title_file, "w", encoding="utf-8")
+    m_synopsis_file = open(M_synopsis_file, "w", encoding="utf-8")
+    m_actors_file = open(M_actors_file, "w", encoding="utf-8")
 
     for html_file in os.listdir(movie_htmls_dir):
         with open(movie_htmls_dir + html_file, "r", encoding='utf-8') as f:
@@ -156,16 +153,16 @@ if __name__ == '__main__':
     b_writerinfo = Filter(None, (r'作者简介(.*?)class="intro"(.*?)<p>(.*?)</p>', 2))
 
     ## 解析电影
-    b_writer_file = open(B_writer_file, "a", encoding="utf-8")
-    b_publisher_file = open(B_publisher_file, "a", encoding="utf-8")
-    b_publishtime_file = open(B_publishtime_file, "a", encoding="utf-8")
-    b_pagenums_file = open(B_pagenums_file, "a", encoding="utf-8")
-    b_price_file = open(B_price_file, "a", encoding="utf-8")
-    b_binding_file = open(B_binding_file, "a", encoding="utf-8")
-    b_isbn_file = open(B_isbn_file, "a", encoding="utf-8")
-    b_title_file = open(B_title_file, "a", encoding="utf-8")
-    b_synopsis_file = open(B_synopsis_file, "a", encoding="utf-8")
-    b_writerinfo_file = open(B_writerinfo_file, "a", encoding="utf-8")
+    b_writer_file = open(B_writer_file, "w", encoding="utf-8")
+    b_publisher_file = open(B_publisher_file, "w", encoding="utf-8")
+    b_publishtime_file = open(B_publishtime_file, "w", encoding="utf-8")
+    b_pagenums_file = open(B_pagenums_file, "w", encoding="utf-8")
+    b_price_file = open(B_price_file, "w", encoding="utf-8")
+    b_binding_file = open(B_binding_file, "w", encoding="utf-8")
+    b_isbn_file = open(B_isbn_file, "w", encoding="utf-8")
+    b_title_file = open(B_title_file, "w", encoding="utf-8")
+    b_synopsis_file = open(B_synopsis_file, "w", encoding="utf-8")
+    b_writerinfo_file = open(B_writerinfo_file, "w", encoding="utf-8")
 
     for html_file in os.listdir(book_htmls_dir):
         with open(book_htmls_dir + html_file, "r", encoding='utf-8') as f:

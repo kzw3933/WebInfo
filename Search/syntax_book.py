@@ -1,4 +1,3 @@
-# from lex import tokens
 import ply.yacc as yacc
 from IR.Corpus.corpus import Corpus
 
@@ -132,8 +131,6 @@ def p_list(p):
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
-
-
 
 # Build the parser
 parser = yacc.yacc()

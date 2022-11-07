@@ -1,10 +1,9 @@
 import jieba
-from IR.Corpus.config import Stopwords, Punctutation, movie_parse_data_path, book_parse_data_path, pre_load_book_corpus_path, pre_load_movie_corpus_path
+from IR.Corpus.config import *
 import sys
-import json, pickle
+import pickle
 import os
 sys.path.append("D:\\Savefiles\\Projects\\Python\\IR")
-
 
 # 语料库类(包含token2id,id2token以及倒排索引，均以字典为数据结构)
 class Corpus:
@@ -12,7 +11,7 @@ class Corpus:
     def __init__(self, ctype, preload=True):
         self.token2id = dict()
         self.id2token = dict()
-        self.passagelist = dict()
+        self.passage_list = dict()
         self.dictionary = dict()
         self.invert_indice = dict()
         self.type = ctype
@@ -21,8 +20,8 @@ class Corpus:
 
 
     def add(self, text_id, text_name, text=None, tokens=None):
-        if text_name not in self.passagelist and text:
-            self.passagelist[str(text_id)] = (text_name, text)
+        if text_name not in self.passage_list and text:
+            self.passage_list[str(text_id)] = (text_name, text)
 
         all_tokens = []
         if not text and not tokens:
@@ -49,7 +48,7 @@ class Corpus:
                 pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
     def getPassageList(self, id_list):
 
-        return [self.passagelist[str(i)] for i in id_list]
+        return [self.passage_list[str(i)] for i in id_list]
 
 
 
@@ -63,10 +62,15 @@ class Corpus:
                     print(pre_load_movie_corpus_path+" not found!")
                     sys.exit(-1)
                 return
-            with open(movie_parse_data_path, "r") as f:
-                movies = json.load(f)
-                for key, value in movies.items():
-                    self.add(key, value)
+            with open(M_title_file,"r",encoding='utf-8') as f:
+                title_list = [i.strip('\n').split(':')[-1] for i in f.readlines()]
+            with open(M_type_file,"r",encoding='utf-8') as f:
+                type_list = [i.strip('\n').split(':')[-1].strip().split() for i in f.readlines()]
+            with open(M_synopsis_file, "r",encoding='utf-8') as f:
+                synopsis_list = [i.strip('\n') for i in f.readlines()]
+                for i,synopsis in enumerate(synopsis_list):
+                    self.add(synopsis.split(':')[0],title_list[i], synopsis.split(':')[1],type_list[i])
+
         elif self.type == 'book':
             if self.preload:
                 if os.path.exists(pre_load_book_corpus_path):
@@ -76,15 +80,15 @@ class Corpus:
                     print(pre_load_book_corpus_path+" not found!")
                     sys.exit(-1)
                 return
-            with open(book_parse_data_path, "r") as f:
-                books = json.load(f)
-                for key, value in books.items():
-                    self.add(key, value)
+            with open(B_title_file,"r",encoding='utf-8') as f:
+                title_list = [i.strip('\n').split(':')[-1] for i in f.readlines()]
+            with open(B_synopsis_file, "r",encoding='utf-8') as f:
+                synopsis_list = [i.strip('\n') for i in f.readlines()]
+                for i, synopsis in enumerate(synopsis_list):
+                    self.add(synopsis.split(':')[0], title_list[i], synopsis.split(':')[1])
 
         for token in self.token2id:
             self.dictionary[token][1] = len(self.invert_indice[self.token2id[token]])
-
-
 
     def _updateTokens(self, tokens):
         for token in tokens:

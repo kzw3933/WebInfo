@@ -32,41 +32,41 @@ Proxies = ["http://222.74.73.202:42055",
            "http://120.194.55.139:6969",
            "http://120.194.55.139:6969"]
 
-movie_ids_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\Movie_id.txt"
-book_ids_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\Book_id.txt"
+movie_ids_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\Movie_id.txt"
+book_ids_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\Book_id.txt"
 
 movie_url_base = "https://movie.douban.com/subject/"
 book_url_base = "https://book.douban.com/subject/"
 
-movie_htmls_dir = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\htmls\\movies\\"
-book_htmls_dir = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\htmls\\books\\"
+movie_htmls_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\htmls\\movies\\"
+book_htmls_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\htmls\\books\\"
 
-movie_parse_data_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\jsons\\movies_synopsis.json"
-book_parse_data_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\jsons\\books_synopsis.json"
+movie_parse_data_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\jsons\\movies_synopsis.json"
+book_parse_data_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\jsons\\books_synopsis.json"
 
-M_director_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_director.txt"
-M_writer_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_writer.txt"
-M_type_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_type.txt"
-M_made_country_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_made_country.txt"
-M_language_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_language.txt"
-M_show_time_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_show_time.txt"
-M_duration_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_duration.txt"
-M_alias_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_alias.txt"
-M_imdb_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_imdb.txt"
-M_title_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_title.txt"
-M_synopsis_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_synopsis.txt"
-M_actors_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\m_actors.txt"
+M_director_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_director.txt"
+M_writer_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_writer.txt"
+M_type_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_type.txt"
+M_made_country_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_made_country.txt"
+M_language_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_language.txt"
+M_show_time_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_show_time.txt"
+M_duration_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_duration.txt"
+M_alias_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_alias.txt"
+M_imdb_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_imdb.txt"
+M_title_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_title.txt"
+M_synopsis_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_synopsis.txt"
+M_actors_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_actors.txt"
 
-B_writer_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_writer.txt"
-B_publisher_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_publisher.txt"
-B_publishtime_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_publishtime.txt"
-B_pagenums_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_pagenums.txt"
-B_price_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_price.txt"
-B_binding_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_binding.txt"
-B_isbn_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_isbn.txt"
-B_title_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_title.txt"
-B_synopsis_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_synopsis.txt"
-B_writerinfo_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_writerinfo.txt"
+B_writer_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_writer.txt"
+B_publisher_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_publisher.txt"
+B_publishtime_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_publishtime.txt"
+B_pagenums_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_pagenums.txt"
+B_price_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_price.txt"
+B_binding_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_binding.txt"
+B_isbn_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_isbn.txt"
+B_title_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_title.txt"
+B_synopsis_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_synopsis.txt"
+B_writerinfo_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\b_writerinfo.txt"
 
 
 
@@ -74,7 +74,7 @@ B_writerinfo_file = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\txts\\b_
 ## Corpus
 
 Punctutation = hanzi_punc + english_punc
-stop_words_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\stop_words.txt"
+stop_words_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\stop_words.txt"
 
 Corpus_load_path = ""
 
@@ -84,7 +84,7 @@ with open(stop_words_path, "r", encoding='utf-8') as f:
     for line in f.readlines():
         Stopwords.append(line.split('\n')[0])
 
-pre_load_movie_corpus_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\movie_corpus.pkl"
-pre_load_book_corpus_path = "D:\\Savefiles\\Projects\\Python\\IR\\Corpus\\data\\book_corpus.pkl"
+pre_load_movie_corpus_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\movie_corpus.pkl"
+pre_load_book_corpus_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\book_corpus.pkl"
 
 

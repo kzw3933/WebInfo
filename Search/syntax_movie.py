@@ -1,9 +1,6 @@
 
-# --------------------------------------------------------------------------------------------------------
 import ply.yacc as yacc
 from IR.Corpus.corpus import Corpus
-
-
 
 corpus = Corpus(ctype="movie", preload=True)
 
@@ -132,24 +129,11 @@ def p_list(p):
         p[0][1] = 0
 
 
-    # Error rule for syntax errors
+# Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
 
 
-
-    # Build the parser
+# Build the parser
 parser = yacc.yacc()
-#
-# while True:
-#     try:
-#         s = input('calc > ')
-#         # s = '3 + 5 * (10 - 20)'
-#     except EOFError:
-#         break
-#     if not s: continue
-#     result = parser.parse(s)
-#     print(result)
 
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
