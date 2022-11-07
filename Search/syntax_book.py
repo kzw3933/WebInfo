@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 from IR.Corpus.corpus import Corpus
+from IR.Search.lex import tokens
 
 corpus = Corpus(ctype="book", preload=True)
 

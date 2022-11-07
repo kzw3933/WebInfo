@@ -51,16 +51,16 @@ if __name__ == '__main__':
         result = IR.resSort(result)
 
         if type == 'movie':
-            result = IR.book_corpus.getPassageList(result)
-        else:
             result = IR.movie_corpus.getPassageList(result)
+        else:
+            result = IR.book_corpus.getPassageList(result)
 
 
         if result:
             print("The search results are in following: ")
             for item in result:
                 passage_name,passage_text = item
-                print("passage_name: "+"\033[31m"+passage_name+"\033[0m")
+                print("passage_name: "+"\033[31m"+passage_name+"\033[0m",end="\t")
                 passage_text = str(passage_text[0:10])+"..." if len(passage_text) >=10 else str(passage_text)+"..."
                 print("passage_text: " + "\033[31m" + passage_text + "\033[0m")
 

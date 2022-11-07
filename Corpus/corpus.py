@@ -42,10 +42,10 @@ class Corpus:
     def save(self):
         if self.type == 'movie':
             with open(pre_load_movie_corpus_path,"wb") as f:
-                pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
+                pickle.dump((self.dictionary,self.token2id,self.passage_list, self.id2token, self.invert_indice), f)
         elif self.type == 'book':
             with open(pre_load_book_corpus_path,"wb") as f:
-                pickle.dump((self.dictionary,self.token2id, self.id2token, self.invert_indice), f)
+                pickle.dump((self.dictionary,self.token2id,self.passage_list, self.id2token, self.invert_indice), f)
     def getPassageList(self, id_list):
 
         return [self.passage_list[str(i)] for i in id_list]
@@ -57,7 +57,7 @@ class Corpus:
             if self.preload:
                 if os.path.exists(pre_load_movie_corpus_path):
                     with open(pre_load_movie_corpus_path,"rb") as f:
-                        self.dictionary,self.token2id,self.id2token,self.invert_indice = pickle.load(f)
+                        self.dictionary,self.token2id,self.passage_list,self.id2token,self.invert_indice = pickle.load(f)
                 else:
                     print(pre_load_movie_corpus_path+" not found!")
                     sys.exit(-1)
@@ -75,7 +75,7 @@ class Corpus:
             if self.preload:
                 if os.path.exists(pre_load_book_corpus_path):
                     with open(pre_load_book_corpus_path,"rb") as f:
-                        self.dictionary,self.token2id,self.id2token,self.invert_indice = pickle.load(f)
+                        self.dictionary,self.token2id,self.passage_list,self.id2token,self.invert_indice = pickle.load(f)
                 else:
                     print(pre_load_book_corpus_path+" not found!")
                     sys.exit(-1)

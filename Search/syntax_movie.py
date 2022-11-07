@@ -1,4 +1,4 @@
-
+from IR.Search.lex import tokens
 import ply.yacc as yacc
 from IR.Corpus.corpus import Corpus
 
