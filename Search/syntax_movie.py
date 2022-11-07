@@ -120,7 +120,7 @@ def p_list(p):
 
         ReverseTable = {}
         for item in corpus.invert_indice[corpus.dictionary[p[2]][0]]:
-            ReverseTable[item] = corpus.invert_indice[corpus.dictionary[p[1]][0]][item]
+            ReverseTable[item] = corpus.invert_indice[corpus.dictionary[p[2]][0]][item]
         p[0] = [ReverseTable,0]
     elif len(p) == 4:
         p[0] = orMerge(p[2])
