@@ -442,9 +442,9 @@ if __name__ == '__main__':
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;效果如下:
 
-![](Snipaste_2022-11-08_22-58-44.png)
+![](C:\Users\Administrator\Desktop\IR\Report\Snipaste_2022-11-08_23-04-10.png)
 
-![](Snipaste_2022-11-08_22-59-20.png)
+![](C:\Users\Administrator\Desktop\IR\Report\Snipaste_2022-11-08_23-04-19.png)
 
 
 
@@ -463,7 +463,7 @@ if __name__ == '__main__':
 #### 深度学习
 &nbsp;&nbsp;&nbsp;&nbsp;本次实验使用了pytorch构建如下网络模型,针对输入的特征进行特征嵌入,并通过后续的多层全连接层,使用MSE以及Adam优化器训练网络
 
-![](model.png)
+![](C:\Users\Administrator\Desktop\IR\Report\model.png)
 
 ##### 数据处理
 
