@@ -39,7 +39,6 @@ predict_userscore_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\data
 train_log_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\logs"
 model_save_path = "C:\\Users\\Administrator\\Desktop\\IR\\Recommend\\model\\model.pth"
 
-
 last_best_loss = 1.0800
 load_old_loss = True
 
