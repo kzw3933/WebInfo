@@ -6,14 +6,7 @@ from string import punctuation as english_punc
 
 Referer = "https://movie.douban.com/"
 
-Cookies = """ll="118183"; bid=4MGld7_2UzQ; __utmz=30149280.1666588590.1.1.utmcsr=baidu|utmccn=(
-organic)|utmcmd=organic; dbcl2="224468347:1ViXNCPXCww"; push_noty_num=0; push_doumail_num=0; __utmv=30149280.22446; 
-__yadk_uid=HDWJsygOg3DPGd4qxxTfk4PUyYGHPqO8; __gads=ID=abb64a268a003ca1-22e8195d79d700bf:T=1666588625:RT=1666588625:S
-=ALNI_MY0CVtQhtulr7pEXCJpbaKzVtpehA; __utma=30149280.419976393.1666588590.1666588590.1666601460.2; ck=z6WK; 
-_pk_ref.100001.8cb4=["","",1666792375,"https://www.baidu.com/link?url=wYqeAXqIUgTlEEIYyjzIlBbyBvqrkz_GwqaF_MBde
--jzV2zkNesgxAPh0V11O6Wj&wd=&eqid=e51acc04000110d70000000363593bb5"]; 
-_pk_id.100001.8cb4=18f26e8620b03d1f.1666588589.2.1666792375.1666588702.; _pk_ses.100001.8cb4=*; ap_v=0,
-6.0; __gpi=UID=00000b6aa5385884:T=1666588625:RT=1666792377:S=ALNI_MZ37VMFHa9YF2W-rOFimg-ADy51bA """
+Cookies = """ll="118183";bid=4MGld7_2UzQ;__utmz=30149280.1666588590.1.1.utmcsr=baidu|utmccn=(organic)|utmcmd=organic;dbcl2="224468347:1ViXNCPXCww";push_noty_num=0; push_doumail_num=0;__utmv=30149280.22446;__yadk_uid=HDWJsygOg3DPGd4qxxTfk4PUyYGHPqO8;__gads=ID=abb64a268a003ca1-22e8195d79d700bf:T=1666588625:RT=1666588625:S=ALNI_MY0CVtQhtulr7pEXCJpbaKzVtpehA;__utma=30149280.419976393.1666588590.1666588590.1666601460.2; ck=z6WK;_pk_ref.100001.8cb4=["","",1666792375,"https://www.baidu.com/link?url=wYqeAXqIUgTlEEIYyjzIlBbyBvqrkz_GwqaF_MBde-jzV2zkNesgxAPh0V11O6Wj&wd=&eqid=e51acc04000110d70000000363593bb5"];_pk_id.100001.8cb4=18f26e8620b03d1f.1666588589.2.1666792375.1666588702.; _pk_ses.100001.8cb4=*; ap_v=0,6.0;__gpi=UID=00000b6aa5385884:T=1666588625:RT=1666792377:S=ALNI_MZ37VMFHa9YF2W-rOFimg-ADy51bA"""
 
 User_Agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 " \
              "Safari/537.36 "
@@ -40,9 +33,6 @@ book_url_base = "https://book.douban.com/subject/"
 
 movie_htmls_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\htmls\\movies\\"
 book_htmls_dir = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\htmls\\books\\"
-
-movie_parse_data_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\jsons\\movies_synopsis.json"
-book_parse_data_path = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\jsons\\books_synopsis.json"
 
 M_director_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_director.txt"
 M_writer_file = "C:\\Users\\Administrator\\Desktop\\IR\\Corpus\\data\\txts\\m_writer.txt"

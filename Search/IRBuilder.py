@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
 
         else:
-            print("Can't found the related content in system!")
+            print("\033[31m"+"Can't found the related content in system!"+"\033[0m")
 
         next = input("continue "+"\033[32m"+"[Y/n]? "+"\033[0m")
         if next == 'n' or next == 'N':

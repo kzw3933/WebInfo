@@ -1,6 +1,11 @@
-import ply.yacc as yacc
-from IR.Corpus.corpus import Corpus
+
+# --------------------------------------------------------------------------------------------------------
 from IR.Search.lex import tokens
+import ply.yacc as yacc
+import numpy as np
+from IR.Corpus.corpus import Corpus
+
+
 
 corpus = Corpus(ctype="book", preload=True)
 
@@ -39,10 +44,35 @@ def andMerge(andList):
             continue
         else:
             tmp = [{}, 1]
-            for item in andItem[0]:
-                if andRes[0].__contains__(item):
-                    tmp[0][item] = andRes[0][item] + andItem[0][item] # 词频相加
+            i,j = 0,0
+            list1 = list(andRes[0])
+            list2 = list(andItem[0])
+            len1 = len(list1)
+            len2 = len(list2)
+            interval1 = int(np.sqrt(len1)) # list1的跳表指针间隔---根号下表长
+            interval2 = int(np.sqrt(len2)) # list2的跳表指针间隔
+
+            while (i < len1) & (j < len2):
+                if list1[i] == list2[j]:
+                    tmp[0][list1[i]] = andRes[0][list1[i]] + andItem[0][list1[i]]  # 遇见相同元素合并，且词频相加
+                    print('+')
+                    i = i + 1
+                    j = j + 1
+                elif list1[i] < list2[j]:
+                    if (i % interval1 == 0) and (i+interval1 < len1) and (list1[i+interval1] <= list2[j]):# i+interval1为跳表指针指向位置
+                        while (i % interval1 == 0) and (i+interval1 < len1) and (list1[i+interval1] <= list2[j]):
+                            i = i + interval1
+                    else:
+                        i = i + 1
+                else: # list1[i] > list2[j]
+                    if (j % interval2 == 0) and (j+interval2 < len2) and (list2[j+interval2] <= list2[j]):# i+interval1为跳表指针指向位置
+                        while (j % interval2 == 0) and (j+interval2 < len2) and (list2[j+interval2] <= list2[j]):
+                            j = j + interval2
+                    else:
+                        j = j + 1
+
             andRes = tmp
+            print(andRes)
 
     return andRes
 
@@ -57,12 +87,12 @@ def orMerge(orList):
     orRes = [{},1]
     for orItem in orList:
         if orItem[1] == 0:
+            print('error')
             return [{},1]
 
         if first == 0:
             first = 1
             orRes = orItem
-
         else:
             for item in orItem[0]:
                 try:
@@ -112,15 +142,18 @@ def p_list(p):
     '''
     if len(p) == 2:
         ReverseTable = {}
-        for item in corpus.invert_indice[corpus.dictionary[p[1]][0]]:
+        ii = dict(sorted(corpus.invert_indice[corpus.dictionary[p[1]][0]].items(), key=lambda d: d[0], reverse=False))
+
+        for item in ii:
             ReverseTable[item] = corpus.invert_indice[corpus.dictionary[p[1]][0]][item]
         p[0] = [ReverseTable,1]
 
-
     elif len(p) == 3:
         ReverseTable = {}
-        for item in corpus.invert_indice[corpus.dictionary[p[1]][0]]:
-            ReverseTable[item] = corpus.invert_indice[corpus.dictionary[p[1]][0]][item]
+        ii = dict(sorted(corpus.invert_indice[corpus.dictionary[p[2]][0]].items(), key=lambda d: d[0], reverse=False))
+
+        for item in ii:
+            ReverseTable[item] = corpus.invert_indice[corpus.dictionary[p[2]][0]][item]
         p[0] = [ReverseTable,0]
     elif len(p) == 4:
         p[0] = orMerge(p[2])
@@ -129,13 +162,11 @@ def p_list(p):
         p[0][1] = 0
 
 
-# Error rule for syntax errors
+    # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
 
-# Build the parser
+
+
+    # Build the parser
 parser = yacc.yacc()
-
-
-
-
