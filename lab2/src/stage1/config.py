@@ -7,4 +7,4 @@ extract_KG_by_extend_entitys_raw_file = "C:\\Users\\Administrator\\Desktop\\WebI
 extract_KG_by_extend_entitys_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_by_extend_entitys.txt"
 extend_KG_by_tag_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extend_KG_by_tag.txt"
 
-extract_KG_compress_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_compress.gz"
+extract_KG_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG.txt"

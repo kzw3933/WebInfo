@@ -163,12 +163,15 @@ print("实体扩充"+"======="+"over!")
 ## TODO: 貌似不需要,一共就18个tag,而且各不相同: '动画', '青春', '喜剧', '科幻', '大陆', '香港', '人性', '犯罪', '动作', '美国',
 ## TODO: '纪录片', '文艺', '悬疑', '日本', '短片', '惊悚', '经典', '爱情'
 
-## 合并KG并压缩保存
-with gzip.open(extract_KG_compress_file, "wb") as f:
-    f1 = open(extract_KG_by_movie_entitys_file, "r")
-    f2 = open(extract_KG_by_extend_entitys_file, "r")
-    f3 = open(extend_KG_by_tag_file, "r")
-    f.writelines(f1)
-    f.writelines(f2)
-    f.writelines(f3)
+## 合并KG并保存
+with open(extract_KG_file, "a", encoding='utf-8') as f:
+    f1 = open(extract_KG_by_movie_entitys_file, "r", encoding='utf-8')
+    f2 = open(extract_KG_by_extend_entitys_file, "r", encoding='utf-8')
+    f3 = open(extend_KG_by_tag_file, "r", encoding='utf-8')
+    for i in f1.readlines():
+        f.write(i)
+    for i in f2.readlines():
+        f.write(i)
+    for i in f3.readlines():
+        f.write(i)
 print("合并KG并压缩保存"+"======="+"over!")
