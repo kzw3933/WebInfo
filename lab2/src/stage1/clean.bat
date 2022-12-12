@@ -1,0 +1,3 @@
+del extract_KG_by_movie_entitys_raw.txt
+del extract_KG_by_extend_entitys1_raw.txt
+del extract_KG_by_extend_entitys2_raw.txt
