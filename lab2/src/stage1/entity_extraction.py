@@ -18,7 +18,7 @@ class triplet_filter:
     def _get_entitys_counts(self):
         entitys2count = dict()
         for line in self.triplet_set:
-            triplet = line.split('\t')
+            triplet = line.strip('\n').split('\t')
             if(triplet[0] not in entitys2count):
                 entitys2count[triplet[0]] = 1
             else:
@@ -33,7 +33,7 @@ class triplet_filter:
     def _get_releations_counts(self):
         releations2count = dict()
         for line in self.triplet_set:
-            triplet = line.split('\t')
+            triplet = line.strip('\n').split('\t')
             if (triplet[1] not in releations2count):
                 releations2count[triplet[1]] = 1
             else:
@@ -44,7 +44,7 @@ class triplet_filter:
     def _filter_by_standard(self, triplet_set):
         new_triplet_set = []
         for line in triplet_set:
-            triplet = line.split('\t')
+            triplet = line.strip('\n').split('\t')
             if not triplet[0].startswith("<http://rdf.freebase.com/ns/") or not triplet[2].startswith("<http://rdf.freebase.com/ns/"):
                 continue
             else:
@@ -57,7 +57,7 @@ class triplet_filter:
         new_triplet_set = []
         save_releations_set = set()
         for line in triplet_set:
-            triplet = line.split('\t')
+            triplet = line.strip('\n').split('\t')
             if self.releations2counts[triplet[1]] > self.releation_min:
                 new_triplet_set.append(line)
                 save_releations_set.add(triplet[1])
@@ -70,14 +70,15 @@ class triplet_filter:
             if v >=  self.entitys_min and v <= self.entitys_max:
                 extend_entitys.add(k)
 
+        return extend_entitys
+
 
 
     def run(self):
         extend_entitys = self.get_extend_entitys()
         new_triplet_set = []
         for line in self.triplet_set:
-            triplet = line.split('\t')
-
+            triplet = line.strip('\n').split('\t')
             if (triplet[0] in self.base_entitys_set or triplet[0] in extend_entitys) and (triplet[2] in self.base_entitys_set or triplet[2] in extend_entitys):
                 new_triplet_set.append(line)
 
@@ -100,15 +101,19 @@ with open(movie_id2fb_file, "r", encoding='utf-8') as f:
         movie_id2fb[a] = "<http://rdf.freebase.com/ns/"+b+">"
         movie_entitys.add("<http://rdf.freebase.com/ns/"+b+">")
 
+print("获得id2fb的映射表"+"======="+"over!")
+
 
 ## 根据电影id匹配提取freebase中的实体提取所有三元组
 with gzip.open(freebase_file, "rb") as f:
     with open(extract_KG_by_movie_entitys_raw_file, "a", encoding='utf-8') as b:
         for line in f:
             line = line.strip()
-            triplet = line.decode().split('\t')
+            triplet = line.decode().strip('\n').split('\t')
             if triplet[0] in movie_entitys or triplet[2] in movie_entitys:
-                b.write("\t".join(line.decode().split('\t')[0:3])+"\n")
+                b.write("\t".join(line.decode().strip('\n').split('\t')[0:3])+"\n")
+
+print("根据电影id匹配提取freebase中的实体提取所有三元组"+"======="+"over!")
 
 ## 过滤保存子图并获取并过滤出所需的扩展实体
 with open(extract_KG_by_movie_entitys_raw_file, "r", encoding='utf-8') as f:
@@ -116,25 +121,25 @@ with open(extract_KG_by_movie_entitys_raw_file, "r", encoding='utf-8') as f:
     extend_entitys = filter.get_extend_entitys()
     filter.save(extract_KG_by_movie_entitys_file)
 
-
+print("过滤保存子图并获取并过滤出所需的扩展实体"+"======="+"over!")
 ## 提取扩展实体对应的所有三元组
 with gzip.open(freebase_file, "rb") as f:
     with open(extract_KG_by_extend_entitys_raw_file, "a", encoding='utf-8') as b:
         for line in f:
             line = line.strip()
-            triplet = line.decode().split('\t')
+            triplet = line.decode().strip('\n').split('\t')
             if triplet[0] in movie_entitys or triplet[2] in movie_entitys:
                 continue
             if triplet[0] in extend_entitys or triplet[2] in extend_entitys:
-                b.write("\t".join(line.decode().split('\t')[0:3])+"\n")
+                b.write("\t".join(line.decode().strip('\n').split('\t')[0:3])+"\n")
 
-
+print("提取扩展实体对应的所有三元组"+"======="+"over!")
 ## 过滤并保存子图
 with open(extract_KG_by_movie_entitys_raw_file, "r", encoding='utf-8') as f:
     filter = triplet_filter(f.readlines(), extend_entitys, 15)
     filter.save(extract_KG_by_extend_entitys_file)
 
-
+print("过滤并保存子图"+"======="+"over!")
 ## 实体扩充
 with open(movie_tag_file, "r", encoding='utf-8') as f:
     f_csv = csv.DictReader(f)
@@ -152,7 +157,7 @@ with open(movie_tag_file, "r", encoding='utf-8') as f:
                     triplet.append("<tag>")
                     triplet.append("<"+item+">")
                     b.write("\t".join(triplet)+"\n")
-
+print("实体扩充"+"======="+"over!")
 
 ## TODO: 实体对齐(合并相似语义的tag实体)
 ## TODO: 貌似不需要,一共就18个tag,而且各不相同: '动画', '青春', '喜剧', '科幻', '大陆', '香港', '人性', '犯罪', '动作', '美国',
@@ -166,3 +171,4 @@ with gzip.open(extract_KG_compress_file, "wb") as f:
     f.writelines(f1)
     f.writelines(f2)
     f.writelines(f3)
+print("合并KG并压缩保存"+"======="+"over!")

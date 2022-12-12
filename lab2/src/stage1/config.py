@@ -2,9 +2,9 @@ movie_id2fb_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\data\\doub
 freebase_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\data\\freebase_douban.gz"
 movie_tag_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\data\\Movie_tag.csv"
 extract_KG_by_movie_entitys_raw_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_by_movie_entitys_raw.txt"
-extract_KG_by_movie_entitys_file = "/src/stage1/extract_KG_by_movie_entitys_raw.txt"
+extract_KG_by_movie_entitys_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_by_movie_entitys.txt"
 extract_KG_by_extend_entitys_raw_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_by_extend_entitys_raw.txt"
-extract_KG_by_extend_entitys_file = "/src/stage1/extract_KG_by_extend_entitys_raw.txt"
+extract_KG_by_extend_entitys_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_by_extend_entitys.txt"
 extend_KG_by_tag_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extend_KG_by_tag.txt"
 
 extract_KG_compress_file = "C:\\Users\\Administrator\\Desktop\\WebInfo\\lab2\\src\\stage1\\extract_KG_compress.gz"
