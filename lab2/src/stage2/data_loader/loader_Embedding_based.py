@@ -6,7 +6,7 @@ import torch
 import numpy as np
 import pandas as pd
 
-from data_loader.loader_base import DataLoaderBase
+from src.stage2.data_loader.loader_base import DataLoaderBase
 
 
 class DataLoader(DataLoaderBase):
@@ -29,20 +29,32 @@ class DataLoader(DataLoaderBase):
         '''
         # 1. 为KG添加逆向三元组，即对于KG中任意三元组(h, r, t)，添加逆向三元组 (t, r+n_relations, h)，
         #    并将原三元组和逆向三元组拼接为新的DataFrame，保存在 self.kg_data 中。
-        
-        self.kg_data = 
+
+        h_set = set(kg_data['h'])
+        r_set = set(kg_data['r'])
+        t_set = set(kg_data['t'])
+
+        new_kg_data = kg_data
+
+        for row in kg_data.index:
+            h, r, t = kg_data.loc[row]
+            new_kg_data.append({'h': t, 'r': r + len(r_set), 't': h}, ignore_index=True)
+
+        self.kg_data = new_kg_data
 
         # 2. 计算关系数，实体数和三元组的数量
-        self.n_relations = 
-        self.n_entities = 
-        self.n_kg_data = 
+        self.n_relations = len(r_set)
+        self.n_entities = len(h_set.union(t_set))
+        self.n_kg_data = self.kg_data.shape[0]
 
         # 3. 根据 self.kg_data 构建字典 self.kg_dict ，其中key为h, value为tuple(t, r)，
         #    和字典 self.relation_dict，其中key为r, value为tuple(h, t)。
         self.kg_dict = collections.defaultdict(list)
         self.relation_dict = collections.defaultdict(list)
-        
-
+        for row in self.kg_data.index:
+            h, r, t = kg_data.loc[row]
+            self.kg_dict[h].append((t, r))
+            self.relation_dict[r].append((h, t))
 
 
     def print_info(self, logging):

@@ -166,3 +166,5 @@ class DataLoaderBase(object):
         batch_pos_tail = torch.LongTensor(batch_pos_tail)
         batch_neg_tail = torch.LongTensor(batch_neg_tail)
         return batch_head, batch_relation, batch_pos_tail, batch_neg_tail
+
+

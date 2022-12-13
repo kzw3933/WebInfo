@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import pandas as pd
 
-from data_loader.loader_base import DataLoaderBase
+from src.stage2.data_loader.loader_base import DataLoaderBase
 
 
 class DataLoader(DataLoaderBase):
